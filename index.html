@@ -27,11 +27,82 @@
     <link rel="stylesheet" href="js/jquery-ui.min.css">
     <link rel="stylesheet" href="css/charts.css">
     <link rel="stylesheet" href="aggregate.css">
+
+    <script type="text/javascript">
+      var base_url = "https://datahub.csail.mit.edu";
+      var client_id = "aDwEeMk9FPaeGc32AXYzrQh0VxM2lyIrp0Qke1WG";
+      // var redirect_uri = "https://web.mit.edu/jander/www/dh/";
+
+      // Convenience function to build DataHub URL strings
+      // Expects a path starting with a slash. If a params object is present,
+      // it encodes and appends that as query parameters.
+      function buildURL(path, params) {
+          query = "";
+          if (params !== undefined && Object.keys(params).length > 0) {
+              query = "?" + $.param(params)
+          }
+          return base_url + path + query;
+      }
+
+      $(document).ready(function() {
+
+          // Pull the access token from the URL hash if it's available.
+          // Overwrite whatever's currently in storage.
+          if (window.location.hash.length > 1) {
+              params = paramsFromQuery(window.location.hash.substring(1));
+              if (params['access_token']) {
+                  keys = ['access_token', 'scope'];
+                  for (var i = keys.length - 1; i >= 0; i--) {
+                      console.log("Trying " + keys[i]);
+                      saveIfSet(params, keys[i]);
+                  }
+                  // Clear the hash after handling the access_token.
+                  // Just setting window.location.hash = "" leaves a dangling #.
+                  // history.replaceState("", document.title, window.location.pathname + window.location.search);
+              }
+              console.log(params);
+          }
+
+          // displayTokenInfo();
+
+          // Request authorization button
+          $("#request").click(function() {
+              var params = {
+                  "response_type": "token",
+                  "scope": "read write",
+                  "client_id": client_id,
+                  // "redirect_uri": redirect_uri
+              };
+              var authorization_url = buildURL("/oauth2/authorize/", params);
+              window.location.href = authorization_url;
+          });
+
+          // Clear authorization button
+          $("#clear").click(function() {
+              keys = ['access_token', 'scope'];
+              for (var i = keys.length - 1; i >= 0; i--) {
+                  localStorage.removeItem(keys[i]);
+              };
+              // Show that they've been cleared.
+              displayTokenInfo();
+          });
+
+      });
+    </script>
     
   </head>
   <body>
   <div class="container-fluid">
-    
+
+    <ul class="navbar-oauth">
+      <li>
+        <a id="clear" class="btn btn-link">Clear Auth</a>
+      </li>
+      <li>
+        <a id="request" class="btn btn-link">Request Auth</a>
+      </li>
+    </ul>
+
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">

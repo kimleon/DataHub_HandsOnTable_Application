@@ -137,13 +137,13 @@ function executeAggregateQuery(query) {
 		$("#save_button").click(function() {
 			aggregateModal.find(".modal-header").removeClass("aggregateHeaderTable");
 			var newName = $("#newNameInput").val();
-			newquery="CREATE TABLE "+accountName+".test."+newName+" AS ("+ query+")";
+			newquery="CREATE TABLE "+accountName+"."+repoName+"."+newName+" AS ("+ query+")";
 			executeQuery(newquery);
 			aggregateModal.find(".modal-title").html("Table "+newName+' successfully created!');
 			$("#openNewTableButton").html("Open "+newName);
 			$("#openNewTableButton").show();
 			$("#openNewTableButton").click(function () {
-				updateCurrentTable("test",newName);
+				updateCurrentTable(repoName,newName);
 			});
             updateRepo(repoName, fullTableName);
 		});
