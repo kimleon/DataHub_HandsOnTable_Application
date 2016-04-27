@@ -229,7 +229,7 @@
         }
 
         $(document).ready(function() {
-            var returned_url = "https://web.mit.edu/jander/www/dh/#access_token=aDwEeMk9FPaeGc32AXYzrQh0VxM2lyIrp0Qke1WG&token_type=Bearer&state=&expires_in=36000&scope=read+write";
+            var returned_url = "https://web.mit.edu/jander/www/dh/#access_token=ahz8WGayVjKpMVw2qrv19X5gcdznj9e&token_type=Bearer&state=&expires_in=36000&scope=read+write";
 
             // Pull the access token from the URL hash if it's available.
             // Overwrite whatever's currently in storage.
@@ -297,7 +297,7 @@
             $.ajax({
               url: buildURL("/api/v1/user/"),
               type: 'GET',
-              // beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
+              beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
               dataType: 'json',
             })
             .fail(function(xhr, status, error) {
