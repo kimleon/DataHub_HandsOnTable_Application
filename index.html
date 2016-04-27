@@ -74,161 +74,12 @@
             $("#scope").text(scope);
         }
 
-        function buttonWithName(name) {
-          return $("<button />", {
-                    type: "button",
-                    class: "btn btn-default btn-sm pull-right",
-                    text: name,
-                  })
-        }
-
-        function refreshRepos() {
-          var view = $("#interactive_part");
-          view.find("h1 .username").text(localStorage.getItem('username'));
-          view.show();
-          $.ajax({
-            url: buildURL("/api/v1/repos/"),
-            type: 'GET',
-            beforeSend: function(xhr){
-                xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
-                // xhr.setRequestHeader('Accept-Encoding', 'gzip');
-            },
-            dataType: 'json',
-          })
-          .fail(function(xhr, status, error) {
-            console.log("refreshRepos failed");
-          })
-          .done(function(data, status, xhr) {
-            console.log(data.repos);
-            $(document).data('repos', data.repos);
-            displayRepos();
-          })
-        }
-
-        function displayRepos() {
-          var view = $("#interactive_part");
-          var repos = $(document).data('repos');
-          // Group the repos by owner
-          var reposByOwner = {};
-          for (var i = repos.length - 1; i >= 0; i--) {
-            var repo = repos[i];
-            if (reposByOwner[repo.owner] === undefined) {
-              reposByOwner[repo.owner] = [];
-            }
-            reposByOwner[repo.owner].push(repo.repo_name);
-          }
-          // Unordered lists of repos grouped by owner.
-          // Rename buttons bring up form dialog.
-          // Delete buttons delete repos without confirmation.
-          var reposTag = view.find(".repos");
-          reposTag.empty();
-          for (owner in reposByOwner) {
-            $("<h2/>", {
-              class: "col-xs-12",
-              html: owner,
-            }).appendTo(reposTag);
-            // Sort repos alphabetically
-            repos = reposByOwner[owner].sort();
-            listTag = $("<ul/>");
-            listTag.appendTo(reposTag);
-            for (var i = 0; i < repos.length; i++) {
-              $("<li />", {
-                  class: "col-xs-12",
-                  html: repos[i],
-              })
-              .append(buttonWithName("Delete").data('repo_name', repos[i]).click(deleteRepo))
-              .append(buttonWithName("Rename").data('repo_name', repos[i]).click(renameRepo))
-              .appendTo(listTag);
-            }
-          }
-          console.log(reposByOwner);
-        }
-
-        function renameRepo() {
-          var repoName = $(this).data("repo_name");
-          console.log("Rename " + repoName);
-          var modal = $('#renameModal');
-          
-          modal.find('.modal-title').text("Rename " + repoName);
-          modal.find('.modal-body form')
-          .submit(function(event) {
-            $.ajax({
-              url: buildURL("/api/v1/repos/" + localStorage.getItem('username') + "/" + repoName + "/"),
-              type: 'PATCH',
-              beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
-              dataType: 'json',
-              data: $(this).serializeArray(),
-            })
-            .fail(function() {
-              console.log("error");
-            })
-            .done(function() {
-              console.log("success");
-              refreshRepos();
-            })
-            $(this).unbind('submit');
-            modal.hide();
-            event.preventDefault();
-          });
-          modal.find('.modal-body form button:contains("Cancel")')
-          .click(function(event) {
-            $(this).unbind('submit');
-            modal.hide();
-          });
-
-          modal.show();
-        }
-
-        function deleteRepo() {
-          var row = $(this).parent();
-          var repoName = $(this).data("repo_name");
-          console.log(repoName);
-          $.ajax({
-            url: buildURL("/api/v1/repos/" + localStorage.getItem('username') + "/" + repoName + "/"),
-            type: 'DELETE',
-            beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
-            dataType: 'json',
-          })
-          .fail(function(xhr, status, error) {
-            console.log("failed");
-          })
-          .done(function(data, status, xhr) {
-            refreshRepos();
-          });
-        }
-
-        function createRepo() {
-            // From http://stackoverflow.com/a/2117523/85337
-            var repoName = 'repoxxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                return v.toString(16);
-            });
-            console.log(repoName);
-            $.ajax({
-                url: buildURL("/api/v1/repos/" + localStorage.getItem('username') + "/"),
-                type: 'POST',
-                beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'repo_name': repoName,
-                }),
-                processData: false,
-            })
-            .fail(function(xhr, status, error) {
-                console.log("failed");
-            })
-            .done(function(data, status, xhr) {
-                refreshRepos();
-            });
-        }
-
         function refreshAuthz() {
           // Bearer token was not accepted or is missing. Try to get a new access token.
         }
 
         $(document).ready(function() {
-            var returned_url = "https://web.mit.edu/jander/www/dh/#access_token=ahz8WGayVjKpMVw2qrv19X5gcdznj9e&token_type=Bearer&state=&expires_in=36000&scope=read+write";
+            var returned_url = "http://kimleon.github.io/DataHub_HandsOnTable_Application/#access_token=ahz8WGayVjKpMVw2qrv19X5gcdznj9e&token_type=Bearer&state=&expires_in=36000&scope=read+write";
 
             // Pull the access token from the URL hash if it's available.
             // Overwrite whatever's currently in storage.
@@ -304,7 +155,7 @@
             })
             .done(function(data, status, xhr) {
               localStorage.setItem('username', data.username);
-              refreshRepos();
+              // refreshRepos();
             })
 
         });
