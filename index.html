@@ -208,35 +208,32 @@
         <li>Granted scopes: <span id="scope"></span></li>
     </ul>
 
-    <div id="interactive_part" class="col-xs-12 col-md-8 col-md-offset-2" style="display: none;">
-      <h1>Hi, <span class="username"></span></h1>
-      <div class="repos">
-      </div>        
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="btn-group dropdown">
-            <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown" aria-expanded="false">
-                <span class="table-name"></span> <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu tables-menu" role="menu">
-                <li class="divider"></li>
-                <li role="presentation" class="dropdown-header">Switch repositories...</li>
-            </ul>
-        </li>
-        <li><a id="aggregateButton" href="" data-toggle="modal" data-target="#aggregateModal">Aggregate</a></li>
-        <li><a id="chart_menu" href="" data-toggle="modal" data-target="#chartModal">Chart</a></li>
-        <li><a id="addColumnButton" href="" data-toggle="modal" data-target="#columnModal">Add Column</a></li>
-        <li><a id="alterSchemaButton" href="" data-toggle="modal" data-target="#schemaModal">Alter Schema</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a id="save" href="#">Save Changes</a></li>
-      </ul>
-
+    <div id="interactive_part" style="display: none;">
+      <h1>Hi, <span class="username"></span></h1>       
+    
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="btn-group dropdown">
+              <button type="button" class="btn btn-info dropdown-toggle navbar-btn" data-toggle="dropdown" aria-expanded="false">
+                  <span class="table-name"></span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu tables-menu" role="menu">
+                  <li class="divider"></li>
+                  <li role="presentation" class="dropdown-header">Switch repositories...</li>
+              </ul>
+          </li>
+          <li><a id="aggregateButton" href="" data-toggle="modal" data-target="#aggregateModal">Aggregate</a></li>
+          <li><a id="chart_menu" href="" data-toggle="modal" data-target="#chartModal">Chart</a></li>
+          <li><a id="addColumnButton" href="" data-toggle="modal" data-target="#columnModal">Add Column</a></li>
+          <li><a id="alterSchemaButton" href="" data-toggle="modal" data-target="#schemaModal">Alter Schema</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a id="save" href="#">Save Changes</a></li>
+        </ul>
       
-    </div><!-- /.navbar-collapse -->
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /#interactive_part -->
   </div><!-- /.container-fluid -->
     <div class="alert alert-danger fade in" role="alert" id="error_alert" hidden="true">
       <button type="button" class="close" aria-label="Close">
@@ -368,5 +365,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
  
+
   </body>
 </html>
