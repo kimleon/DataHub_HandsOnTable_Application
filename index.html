@@ -74,6 +74,37 @@
           $("#scope").text(scope);
       }
 
+      function buttonWithName(name) {
+        return $("<button />", {
+                  type: "button",
+                  class: "btn btn-default btn-sm pull-right",
+                  text: name,
+                })
+      }
+
+      function refreshRepos() {
+        var view = $("#interactive_part");
+        view.find("h1 .username").text(localStorage.getItem('username'));
+        view.show();
+        $.ajax({
+          url: buildURL("/api/v1/repos/"),
+          type: 'GET',
+          beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
+              // xhr.setRequestHeader('Accept-Encoding', 'gzip');
+          },
+          dataType: 'json',
+        })
+        .fail(function(xhr, status, error) {
+          console.log("refreshRepos failed");
+        })
+        .done(function(data, status, xhr) {
+          console.log(data.repos);
+          $(document).data('repos', data.repos);
+          // displayRepos();
+        })
+      }
+
 
       $(document).ready(function() {
 
@@ -176,6 +207,12 @@
         <li>Access token: <span id="access_token"></span></li>
         <li>Granted scopes: <span id="scope"></span></li>
     </ul>
+
+    <div id="interactive_part" class="col-xs-12 col-md-8 col-md-offset-2" style="display: none;">
+      <h1>Hi, <span class="username"></span></h1>
+      <div class="repos">
+      </div>        
+    </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
