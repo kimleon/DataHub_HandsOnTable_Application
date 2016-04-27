@@ -109,6 +109,7 @@
                     "redirect_uri": redirect_uri
                 };
                 var authorization_url = buildURL("/oauth2/authorize/", params);
+                console.log(authorization_url)
                 window.location.href = authorization_url;
             });
 
