@@ -99,7 +99,6 @@
             }
 
             displayTokenInfo();
-            $("#create_repo").click(createRepo);
 
             // Request authorization button
             $("#request").click(function() {
@@ -172,6 +171,11 @@
       <li>
         <a id="request" class="btn btn-link">Request Auth</a>
       </li>
+    </ul>
+
+    <ul>
+        <li>Access token: <span id="access_token"></span></li>
+        <li>Granted scopes: <span id="scope"></span></li>
     </ul>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
