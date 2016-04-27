@@ -43,6 +43,38 @@
           return base_url + path + query;
       }
 
+      // Convenience function to convert a query string into an associative
+      // array.
+      function paramsFromQuery(query) {
+          params = {};
+          parts = query.split("&");
+          for (var i = parts.length - 1; i >= 0; i--) {
+              pieces = parts[i].split("=");
+              params[decodeURIComponent(pieces[0])] = decodeURIComponent(pieces[1].replace(/\+/g, " "));
+          }
+          return params;
+      }
+
+      // Convenience function to copy a value to localStorage if it exists in
+      // an associate array.
+      function saveIfSet(assocArray, key) {
+          if (assocArray[key]) {
+              console.log("Saving " + key + ": " + assocArray[key]);
+              localStorage.setItem(key, assocArray[key]);
+          };
+      }
+
+      function displayTokenInfo() {
+          // Fetch stored info it it's available.
+          var access_token = localStorage.getItem('access_token');
+          var scope = localStorage.getItem('scope');
+
+          // Populate the page's token info.
+          $("#access_token").text(access_token);
+          $("#scope").text(scope);
+      }
+
+
       $(document).ready(function() {
 
           // Pull the access token from the URL hash if it's available.
