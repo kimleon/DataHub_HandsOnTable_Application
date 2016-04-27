@@ -94,10 +94,11 @@
               console.log(params);
           }
 
-          // displayTokenInfo();
+          displayTokenInfo();
 
           // Request authorization button
           $("#request").click(function() {
+              console.log("requesting auth")
               var params = {
                   "response_type": "token",
                   "scope": "read write",
@@ -110,6 +111,7 @@
 
           // Clear authorization button
           $("#clear").click(function() {
+              console.log("clearing auth")
               keys = ['access_token', 'scope'];
               for (var i = keys.length - 1; i >= 0; i--) {
                   localStorage.removeItem(keys[i]);
@@ -118,40 +120,7 @@
               displayTokenInfo();
           });
 
-          // $(".api-link").click(function(event) {
-          //   var link = $(this);
-          //   link.next().html("<pre>...</pre>");
-          //   $.ajax({
-          //     url: buildURL(link.text()),
-          //     type: 'GET',
-          //     beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
-          //     dataType: 'json',
-          //   })
-          //   .fail(function(xhr, status, error) {
-          //     console.log("failed");
-          //     link.next().html("<pre>" + xhr.status + " " + xhr.statusText + "</pre>");
-          //   })
-          //   .done(function(data, status, xhr) {
-          //     console.log("success");
-          //     link.next().html("<pre>" + JSON.stringify(data, null, 2) + "</pre>");
-          //   })
-            
-          // });
 
-
-          // $.ajax({
-          //   url: buildURL("/api/v1/user/"),
-          //   type: 'GET',
-          //   beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
-          //   dataType: 'json',
-          // })
-          // .fail(function(xhr, status, error) {
-          //   console.log("failed");
-          // })
-          // .done(function(data, status, xhr) {
-          //   localStorage.setItem('username', data.username);
-          //   refreshRepos();
-          // })
 
       });
     </script>
