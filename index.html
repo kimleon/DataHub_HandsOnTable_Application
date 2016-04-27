@@ -297,7 +297,7 @@
             $.ajax({
               url: buildURL("/api/v1/user/"),
               type: 'GET',
-              beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
+              // beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));},
               dataType: 'json',
             })
             .fail(function(xhr, status, error) {
