@@ -1,5 +1,5 @@
 
-var accountName = "finalproject6830";
+var accountName = localStorage.getItem('username');
 var password = 'databases';
 
 transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),	
