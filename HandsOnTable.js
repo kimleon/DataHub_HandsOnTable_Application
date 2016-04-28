@@ -19,8 +19,11 @@ var decimalTypes = ["decimal", "money", "numeric", "smallmoney", "float", "real"
 //         $("#popUpDiv").hide();
 //     });
 // });
-
-$(document).ready(function () {
+$('#interactive_part')
+    .bind('afterShow', function() {
+//       alert('afterShow');
+//     })
+// $(document).ready(function () {
   var listOfRepos = document.getElementById('selectRepo');
 
   if (document.location.pathname.indexOf("/chooseRepo.html") != -1) {
