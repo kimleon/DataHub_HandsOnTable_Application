@@ -85,6 +85,7 @@
       function refreshRepos() {
         var view = $("#interactive_part");
         view.find("h1 .username").text(localStorage.getItem('username'));
+        console.log(localStorage)
         view.show();
         $.ajax({
           url: buildURL("/api/v1/repos/"),

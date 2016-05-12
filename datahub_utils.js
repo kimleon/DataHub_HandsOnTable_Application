@@ -1,6 +1,6 @@
 
-var accountName = localStorage.getItem('username');
-var password = 'databases';
+var accountName;
+var password;
 
 transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),	
 protocol = new Thrift.Protocol(transport),
