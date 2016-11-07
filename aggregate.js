@@ -150,13 +150,13 @@ function executeAggregateQuery(query) {
 	});
 }
 
-function executeQuery(query) {
-    transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),
-	protocol = new Thrift.Protocol(transport),
-	client = new DataHubClient(protocol),
-	con_params = new ConnectionParams({'user': accountName, 'password': password}),
-	con = client.open_connection(con_params),
-	res = client.execute_sql(con, query);
-	return res;
-}
+// function executeQuery(query) {
+//     transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),
+// 	protocol = new Thrift.Protocol(transport),
+// 	client = new DataHubClient(protocol),
+// 	con_params = new ConnectionParams({'user': accountName, 'password': password}),
+// 	con = client.open_connection(con_params),
+// 	res = client.execute_sql(con, query);
+// 	return res;
+// }
 

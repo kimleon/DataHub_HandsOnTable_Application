@@ -1,16 +1,60 @@
 
-var accountName = "finalproject6830";
-var password = 'databases';
+var accountName;
+var password;
 
-transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),	
-protocol = new Thrift.Protocol(transport),
-client = new DataHubClient(protocol),
-con_params = new ConnectionParams({'user': accountName, 'password': password}),
-con = client.open_connection(con_params);
+// transport = new Thrift.Transport("http://datahub.csail.mit.edu/service/json"),	
+// protocol = new Thrift.Protocol(transport),
+// client = new DataHubClient(protocol),
+// con_params = new ConnectionParams({'user': accountName, 'password': password}),
+// con = client.open_connection(con_params);
+
+function executeQuery(cmd, page) { // this may not work
+  if (!page) {
+    page = 1;
+  }
+
+  $.ajax({
+    url: buildURL('/api/v1/query/' + 'finalproject6830' + '/'),
+    type: 'POST',
+    dataType: 'json',
+    data: {'query': cmd,
+        'rows_per_page': term.rows() - 5,
+        'current_page': page},
+  })
+  .fail(function(xhr, status, error) {
+    term.error('failed: try \'help\'');
+  })
+  .done(function(data, status, xhr) {
+    if (data.rows && data.rows.length > 0) {
+      printData(data.rows);
+      paginate(data, cmd, page);
+    }
+    term.echo('success');
+  });
+}
+
+function getRepos(usrname) {
+  $.ajax({
+    url: buildURL('/api/v1/repos/'),
+    type: 'POST',
+    dataType: 'json',
+  })
+  .fail(function(xhr, status, error) {
+    term.error('failed: try \'help\'');
+  })
+  .done(function(data, status, xhr) {
+    if (data.rows && data.rows.length > 0) {
+      printData(data.rows);
+      paginate(data, cmd, page);
+    }
+    term.echo('success');
+  });
+}
 
 var executeSQL = function (sqlString, successCallback, failureCallback) {
 	try {
-		var res = client.execute_sql(con, sqlString);
+		// var res = client.execute_sql(con, sqlString);
+		var res = executeQuery(sqlString)
 	} catch (err) {
 		console.log('failure on ' + sqlString);
 		console.log(err);
@@ -22,7 +66,7 @@ var executeSQL = function (sqlString, successCallback, failureCallback) {
 
 var executeSQLQuietFail = function (sqlString, callback) {
 	try {
-		client.execute_sql(con, sqlString);
+		executeQuery(sqlString)
 	} catch (err) {
 		// do nothing
 	}
